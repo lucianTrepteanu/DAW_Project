@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shop.Application.CreateProducts
+namespace Shop.Application.ProductsAdmin
 {
     public class CreateProduct
     {
@@ -26,12 +26,12 @@ namespace Shop.Application.CreateProducts
 
             await _context.SaveChangesAsync();
         }
-        
-    }
-    public class ProductViewModel
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Value { get; set; }
+
+        public class ProductViewModel
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public decimal Value { get; set; }
+        }
     }
 }
