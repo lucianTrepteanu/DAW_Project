@@ -1,0 +1,29 @@
+﻿@page
+@model ShopUI.Pages.Admin.IndexModel
+@{
+}
+
+<div id="app">
+    
+    <div>
+        <p v-for="(product, index) in products">
+            {{product.id}} - {{product.name}} - {{product.value}}
+            <a @@click="editProduct(product.id, index)">Edit</a>
+            <a @@click="deleteProduct(product.id, index)">Remove</a>
+        </p>
+    </div>
+
+    <div>
+        <input v-model="productModel.name" />
+        <input v-model="productModel.description" />
+        <input v-model="productModel.value" />
+        <button @@click="createProduct" v-if="!productModel.id">Create Product</button>
+        <button @@click="updateProduct" v-else>Update Product</button>
+    </div>
+</div>
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"> </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/js/Admin/main.js"></script>
+}
