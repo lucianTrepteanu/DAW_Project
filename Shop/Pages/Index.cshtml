@@ -5,13 +5,14 @@
 }
 
 <div>
-    @{ 
+    @{
         foreach (var p in Model.Products)
         {
             <a asp-page="Product" asp-route-name="@p.Name.Replace(" ","-")">
-                @p.Name - @p.Description - @p.Value 
+                @p.Name - @p.Description - @p.Value
             </a>
             <br />
         }
     }
 </div>
+@await Component.InvokeAsync("Cart") 

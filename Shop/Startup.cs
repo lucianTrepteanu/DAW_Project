@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shop.Database;
+using Stripe;
 
 namespace Shop
 {
@@ -42,6 +43,8 @@ namespace Shop
                 options.Cookie.Name = "Cart";
                 options.Cookie.MaxAge = TimeSpan.FromDays(365);
             });
+
+            StripeConfiguration.ApiKey = _config.GetSection("Stripe")["SecretKey"];
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

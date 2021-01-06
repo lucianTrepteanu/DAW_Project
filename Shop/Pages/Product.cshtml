@@ -7,13 +7,13 @@
     <p>@Model.Product.Name</p>
     <p>@Model.Product.Description</p>
     <p>@Model.Product.Value</p>
-    
+
     <div>
         <form method="post">
 
             <label>Stock</label>
             <select asp-for="CartViewModel.StockId">
-                @foreach(var s in Model.Product.Stock)
+                @foreach (var s in Model.Product.Stock)
                 {
                     <option value="@s.Id">@s.Description</option>
                 }
@@ -24,3 +24,4 @@
         </form>
     </div>
 </div>
+@await Component.InvokeAsync("Cart") 
