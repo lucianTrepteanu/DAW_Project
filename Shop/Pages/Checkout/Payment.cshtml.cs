@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Shop.Application.Cart;
+using Shop.Application.Orders;
 using Shop.Database;
 using Stripe;
 
@@ -33,12 +34,12 @@ namespace ShopUI.Pages.Checkout
             return Page();
         }
 
-        public IActionResult OnPost(string stripeEmail, string stripeToken)
+        public async Task<IActionResult> OnPost(string stripeEmail, string stripeToken)
         {
             var customers = new CustomerService();
             var charges = new ChargeService();
 
-            var CardOrder = new GetOrder(HttpContext.Session, _ctx).Do();
+            var CardOrder = new Shop.Application.Cart.GetOrder(HttpContext.Session, _ctx).Do();
 
             var customer = customers.Create(new CustomerCreateOptions
             {
@@ -52,6 +53,26 @@ namespace ShopUI.Pages.Checkout
                 Description = "Shop Purchase",
                 Currency = "usd",
                 Customer = customer.Id
+            }) ;
+
+            await new CreateOrder(_ctx).Do(new CreateOrder.Request
+            {
+                StripeReference = charge.Id,
+
+                FirstName = CardOrder.CustomerInformation.FirstName,
+                LastName = CardOrder.CustomerInformation.LastName,
+                Email = CardOrder.CustomerInformation.Email,
+                PhoneNumber = CardOrder.CustomerInformation.PhoneNumber,
+                Address1 = CardOrder.CustomerInformation.Address1,
+                Address2 = CardOrder.CustomerInformation.Address2,
+                City = CardOrder.CustomerInformation.City,
+                PostCode = CardOrder.CustomerInformation.PostCode,
+
+                Stocks = CardOrder.Products.Select(x => new CreateOrder.Stock
+                {
+                    StockId = x.StockId,
+                    Qty = x.Qty
+                }).ToList()
             }) ;
 
             return RedirectToPage("/Index");
