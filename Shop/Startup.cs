@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shop.Database;
 using Stripe;
+using Microsoft.AspNetCore.Identity;
 
 namespace Shop
 {
@@ -36,7 +37,33 @@ namespace Shop
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_config["DefaultConnection"]));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Accounts/Login";
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin",policy  => policy.RequireClaim("Role", "Admin"));
+                options.AddPolicy("Manager", policy => policy.RequireClaim("Role", "Manager"));
+            });
+            
+            services
+                .AddMvc()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeFolder("/Admin");
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSession(options =>
             {
@@ -65,7 +92,8 @@ namespace Shop
             app.UseCookiePolicy();
 
             app.UseSession();
-            app.UseMvc();
+            app.UseAuthentication();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
