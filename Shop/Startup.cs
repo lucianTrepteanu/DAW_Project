@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Shop.Database;
 using Stripe;
 using Microsoft.AspNetCore.Identity;
+using Shop.Application.UsersAdmin;
 
 namespace Shop
 {
@@ -53,7 +54,7 @@ namespace Shop
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin",policy  => policy.RequireClaim("Role", "Admin"));
+                options.AddPolicy("Admin", policy  => policy.RequireClaim("Role", "Admin"));
                 options.AddPolicy("Manager", policy => policy.RequireClaim("Role", "Manager"));
             });
             
@@ -62,6 +63,7 @@ namespace Shop
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizeFolder("/Admin");
+                    options.Conventions.AuthorizePage("/Admin/ConfigureUsers", "Admin");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -72,6 +74,8 @@ namespace Shop
             });
 
             StripeConfiguration.ApiKey = _config.GetSection("Stripe")["SecretKey"];
+
+            services.AddTransient<CreateUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
