@@ -43,10 +43,11 @@ namespace Shop
                         userManager.CreateAsync(adminUser, "password").GetAwaiter().GetResult();
                         userManager.CreateAsync(managerUser, "password").GetAwaiter().GetResult();
 
-                        var adminClaim = new Claim("Role","Admin");
+                        var adminClaim = new Claim("Role", "Admin");
                         var managerClaim = new Claim("Role", "Manager");
 
                         userManager.AddClaimAsync(adminUser, adminClaim).GetAwaiter().GetResult();
+                        userManager.AddClaimAsync(adminUser, managerClaim).GetAwaiter().GetResult();
                         userManager.AddClaimAsync(managerUser, managerClaim).GetAwaiter().GetResult();
                     };
                 };
