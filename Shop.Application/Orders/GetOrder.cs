@@ -75,7 +75,7 @@ namespace Shop.Application.Orders
                         Qty = y.Qty,
                         StockDescription = y.Stock.Description
                     }),
-                    //TotalValue = x.OrderStocks.Sum(y => y.Stock.Product.Value).ToString("N2")
+                    TotalValue = x.OrderStocks.Sum(y => y.Stock.Product.Value).ToString("N2")
                 })
                 .FirstOrDefault();
     }

@@ -18,6 +18,7 @@ namespace Shop.Application.UsersAdmin
         public class Request
         {
             public string UserName { get; set; }
+            public string Password { get; set; }
         }
 
         public async Task<bool> Do(Request request)
@@ -27,7 +28,7 @@ namespace Shop.Application.UsersAdmin
                 UserName = request.UserName
             };
 
-            await _userManager.CreateAsync(managerUser, "password");
+            await _userManager.CreateAsync(managerUser, "managerpass");
 
             var managerClaim = new Claim("Role", "Manager");
             

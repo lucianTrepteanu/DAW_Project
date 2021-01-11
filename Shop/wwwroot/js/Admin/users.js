@@ -1,15 +1,17 @@
 ﻿var app = new Vue({
     el: '#app',
     data: {
-        username: ""
+        username: "",
+        password: "bullshit"
     },
     mounted() {
-        //TODO: get all users
+
     },
     methods: {
         createUser() {
             this.loading = true;
-            axios.post('/users', { username: this.username })
+
+            axios.post('/users', { username: this.username, password: 'totihandicapatii'})
                 .then(res => {
                     console.log(res);
                 })

@@ -30,7 +30,7 @@ namespace ShopUI.Pages.Accounts
 
             if (result.Succeeded)
             {
-                return RedirectToPage("/Admin/Index");
+                return RedirectToPage("/Index");
             }
             else
             {

@@ -16,7 +16,7 @@ namespace Shop.Application.Orders
             _ctx = ctx;
         }
 
-        public async Task<bool> Do(int id)
+        public async Task<bool> DoAsync(int id)
         {
             var order = _ctx.Orders.FirstOrDefault(x => x.Id == id);
             order.Status = order.Status + 1;
