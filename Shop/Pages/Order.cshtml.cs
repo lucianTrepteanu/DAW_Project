@@ -20,9 +20,9 @@ namespace ShopUI.Pages
 
         public GetOrder.Response Order { get; set; }
 
-        public void OnGet(string reference)
+        public void OnGet(int id)
         {
-            Order = new GetOrder(_ctx).Do(reference);
+            Order = new GetOrder(_ctx).Do(id);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Application.Orders;
 using Shop.Database;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,11 @@ namespace ShopUI.Controllers
             _ctx = ctx;
         }
 
-        //TODO:
+        [HttpGet("")]
+        public IActionResult GetOrders(int status) => Ok(new GetOrders(_ctx).Do(status));
+        [HttpGet("{id}")]
+        public IActionResult GetOrder(int id) => Ok(new GetOrder(_ctx).Do(id));
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrder(int id) => Ok((await new UpdateOrder(_ctx).Do(id)));
     }
 }

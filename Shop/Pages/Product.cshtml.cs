@@ -28,6 +28,7 @@ namespace ShopUI.Pages
         }
 
         public GetProduct.ProductViewModel Product { get; set; }
+        public string fileName { get; set; }
 
         public async Task<IActionResult> OnGet(string name)
         {
@@ -35,7 +36,10 @@ namespace ShopUI.Pages
             if (Product == null)
                 return RedirectToPage("Index");
             else
+            {
+                fileName = "~/images/"+Product.Id.ToString() + ".jpg";
                 return Page();
+            }
         }
 
         public async Task<IActionResult> OnPost()

@@ -41,6 +41,7 @@ namespace Shop.Application.Products
             .Where(x => x.Name == name)
             .Select(x => new ProductViewModel
             {
+                Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
                 Value = $"${x.Value.ToString("N2")}",
@@ -49,7 +50,7 @@ namespace Shop.Application.Products
                 {
                     Id = y.Id,
                     Description = y.Description,
-                    InStock = y.Qty > 0
+                    Qty = y.Qty
                 })
             })
             .FirstOrDefault();
@@ -57,6 +58,7 @@ namespace Shop.Application.Products
 
         public class ProductViewModel
         {
+            public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
             public string Value { get; set; }
@@ -67,7 +69,7 @@ namespace Shop.Application.Products
         {
             public int Id { get; set; }
             public string Description { get; set; }
-            public bool InStock { get; set; }
+            public int Qty { get; set; }
         }
     }
 }
