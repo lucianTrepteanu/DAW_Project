@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Shop.Application.Data;
 using Shop.Application.ProductsAdmin;
 using Shop.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace ShopUI.Controllers
@@ -13,10 +17,15 @@ namespace ShopUI.Controllers
     [Authorize(Policy = "Manager")]
     public class ProductsController : Controller
     {
+        private IConfiguration _configuration;
+        private IUpload _uploadService;
         private ApplicationDbContext _ctx;
 
-        public ProductsController(ApplicationDbContext ctx)
+        public ProductsController(ApplicationDbContext ctx, IConfiguration configuration)
         {
+            _configuration = configuration;
+            _uploadService = new UploadService();
+            //_uploadService = uploadService;
             _ctx = ctx;
         }
 
@@ -35,5 +44,25 @@ namespace ShopUI.Controllers
         [HttpPut("")]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProduct.Request request) => Ok((await new UpdateProduct(_ctx).Do(request)));
 
+        [Route("[controller]/UploadProductImage/{id}")]
+        public async Task<IActionResult> UploadProductImage(int id, IFormFile file)
+        {
+            var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
+            var container = _uploadService.GetBlobContainer(connectionString, "product-images");
+
+            var parsedContentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+            var filename = parsedContentDisposition.FileName.Trim('"');
+
+            var blockBlob = container.GetBlockBlobReference(filename);
+
+            await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+            
+            var product = _ctx.Products.FirstOrDefault(x => x.Id == id);
+            product.ImageURL = blockBlob.Uri.AbsoluteUri;
+
+            await _ctx.SaveChangesAsync();
+
+            return RedirectToPage("/Index");
+        }
     }
 }

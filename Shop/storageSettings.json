@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "AzureStorageAccount": "DefaultEndpointsProtocol=https;AccountName=quickbuy;AccountKey=D5wTSDtHBmcNBAQhhSIVcRLs4OSyO6cEcgWR1/Twg++hog6fiNSRZ5yYFPSjmTJ+xSUmoIGoQVquV5mcam0yYQ==;EndpointSuffix=core.windows.net"
+  }
+}

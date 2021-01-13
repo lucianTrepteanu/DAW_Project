@@ -51,7 +51,8 @@ namespace Shop.Application.Products
                     Id = y.Id,
                     Description = y.Description,
                     Qty = y.Qty
-                })
+                }),
+                ImageURL = x.ImageURL
             })
             .FirstOrDefault();
         }
@@ -63,6 +64,7 @@ namespace Shop.Application.Products
             public string Description { get; set; }
             public string Value { get; set; }
             public IEnumerable<StockViewModel> Stock { get; set; }
+            public string  ImageURL { get; set; }
         }
 
         public class StockViewModel

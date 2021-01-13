@@ -3,20 +3,23 @@
 @{
 }
 
+@inject IAuthorizationService authService
+
+
 <div class="hero">
     <div class="hero-body">
         <div class="container">
             <div class="columns">
                 <div class="column is-6">
                     <figure class="image is-4by3">
-                            <img src="~/images/item.jpg" />
+                        <img src="@Model.Product.ImageURL"/>
                     </figure>
                 </div>
                 <div class="column is-6">
                     <section class="content">
                         <p class="title">@Model.Product.Name</p>
                         <p class="subtitle">@Model.Product.Description</p>
-                        
+
                         <footer>
                             <form method="post">
 
@@ -50,9 +53,9 @@
                                             <div class="control">
                                                 <input class="input" asp-for="CartViewModel.Qty" value="0" />
                                             </div>
-                                            @foreach(var stock in Model.Product.Stock)
+                                            @foreach (var stock in Model.Product.Stock)
                                             {
-                                                if(stock.Qty <= 10)
+                                                if (stock.Qty <= 10)
                                                 {
                                                     <p class="help is-danger low-stock is-hidden" id="low-stock-@stock.Id">
                                                         @(stock.Qty == 0 ? "Out of Stock":$"{stock.Qty} Left")
@@ -74,8 +77,15 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </form>
+
+                            @if ((await authService.AuthorizeAsync(User, "Manager")).Succeeded)
+                            {
+                                <form enctype="multipart/form-data" asp-controller="Products" asp-action="UploadProductImage" asp-route-id="@Model.Product.Id">
+                                    <input type="file" name="file"/>
+                                    <input type="submit" />
+                                </form>
+                            }
                         </footer>
                     </section>
                 </div>
@@ -83,7 +93,7 @@
         </div>
     </div>
 </div>
- 
+
 <script>
     var toggleStock = function (e) {
         console.log(e);

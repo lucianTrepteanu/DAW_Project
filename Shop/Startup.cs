@@ -79,6 +79,7 @@ namespace Shop
 
             StripeConfiguration.ApiKey = _config.GetSection("Stripe")["SecretKey"];
 
+
             services.AddAplicationServices();
         }
 

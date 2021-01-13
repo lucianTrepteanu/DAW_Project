@@ -25,7 +25,8 @@ namespace Shop.Application.Products
                 Name = x.Name,
                 Description = x.Description,
                 Value = $"${x.Value.ToString("N2")}",
-                StockCount = x.Stock.Sum(y => y.Qty)
+                StockCount = x.Stock.Sum(y => y.Qty),
+                ImageURL = x.ImageURL
             }).ToList();
 
         public class ProductViewModel
@@ -35,6 +36,8 @@ namespace Shop.Application.Products
             public string Description { get; set; }
             public string Value { get; set; }
             public int StockCount { get; set; }
+
+            public string ImageURL { get; set; }
         }
     }
 }
