@@ -11,7 +11,7 @@
         <article class="media">
             <figure class="media-left">
                 <p class="image is-128x128">
-                    <img src="~/images/item.jpg" />
+                    <img src="@product.ImageURL" />
                 </p>
             </figure>
             <div class="media-content">
@@ -22,7 +22,7 @@
                             Qty: @product.Qty
                         </div>
                         <div class="level-item">
-                            Size: @product.StockId
+                            Category: @product.StockId
                         </div>
                         <div class="level-item">
                             Price: @product.Value

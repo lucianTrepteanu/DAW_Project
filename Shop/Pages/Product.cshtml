@@ -21,69 +21,77 @@
                         <p class="subtitle">@Model.Product.Description</p>
 
                         <footer>
-                            <form method="post">
 
-                                <div class="field is-horizontal">
-                                    <div class="field-label is-normal">
-                                        <label class="label">Size</label>
-                                    </div>
-                                    <div class="field-body">
-                                        <div class="field-is-narrow">
-                                            <div class="control">
-                                                <div class="select is-fullwidth">
-                                                    <select asp-for="CartViewModel.StockId" onchange="toggleStock(event)">
-                                                        @foreach (var s in Model.Product.Stock)
-                                                        {
-                                                            bool disabled = s.Qty <= 0;
-                                                            <option value="@s.Id" disabled=@disabled>@s.Description</option>
-                                                        }
-                                                    </select>
+                            @if ((await authService.AuthorizeAsync(User, "Manager")).Succeeded)
+                            {
+                                <div class="columns is-6">
+                                    <form enctype="multipart/form-data" asp-controller="Products" asp-action="UploadProductImage" asp-route-id="@Model.Product.Id">
+                                        <div class="column is-3">
+                                            <input class="glyphicon-upload" type="file" name="file" />
+                                        </div>
+                                        <div class="column is-3">
+                                            <input class="button is-success" type="submit" />
+                                        </div>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <form method="post">
+                                    <div class="field is-horizontal">
+                                        <div class="field-label is-normal">
+                                            <label class="label">Size</label>
+                                        </div>
+                                        <div class="field-body">
+                                            <div class="field-is-narrow">
+                                                <div class="control">
+                                                    <div class="select is-fullwidth">
+                                                        <select asp-for="CartViewModel.StockId" onchange="toggleStock(event)">
+                                                            @foreach (var s in Model.Product.Stock)
+                                                            {
+                                                                bool disabled = s.Qty <= 0;
+                                                                <option value="@s.Id" disabled=@disabled>@s.Description</option>
+                                                            }
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="field is-horizontal">
-                                    <div class="field-label is-normal">
-                                        <label class="label">Qty</label>
-                                    </div>
-                                    <div class="field-body">
-                                        <div class="field-is-narrow">
-                                            <div class="control">
-                                                <input class="input" asp-for="CartViewModel.Qty" value="0" />
-                                            </div>
-                                            @foreach (var stock in Model.Product.Stock)
-                                            {
-                                                if (stock.Qty <= 10)
+                                    <div class="field is-horizontal">
+                                        <div class="field-label is-normal">
+                                            <label class="label">Qty</label>
+                                        </div>
+                                        <div class="field-body">
+                                            <div class="field-is-narrow">
+                                                <div class="control">
+                                                    <input class="input" asp-for="CartViewModel.Qty" value="0" />
+                                                </div>
+                                                @foreach (var stock in Model.Product.Stock)
                                                 {
-                                                    <p class="help is-danger low-stock is-hidden" id="low-stock-@stock.Id">
-                                                        @(stock.Qty == 0 ? "Out of Stock":$"{stock.Qty} Left")
-                                                    </p>
+                                                    if (stock.Qty <= 10)
+                                                    {
+                                                        <p class="help is-danger low-stock is-hidden" id="low-stock-@stock.Id">
+                                                            @(stock.Qty == 0 ? "Out of Stock":$"{stock.Qty} Left")
+                                                        </p>
+                                                    }
                                                 }
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="field is-horizontal">
-                                    <div class="field-label is-normal">
-                                    </div>
-                                    <div class="field-body">
-                                        <div class="field-is-narrow">
-                                            <div class="control">
-                                                <button class="button is-success" type="submit">Submit</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
 
-                            @if ((await authService.AuthorizeAsync(User, "Manager")).Succeeded)
-                            {
-                                <form enctype="multipart/form-data" asp-controller="Products" asp-action="UploadProductImage" asp-route-id="@Model.Product.Id">
-                                    <input type="file" name="file"/>
-                                    <input type="submit" />
+                                    <div class="field is-horizontal">
+                                        <div class="field-label is-normal">
+                                        </div>
+                                        <div class="field-body">
+                                            <div class="field-is-narrow">
+                                                <div class="control">
+                                                    <button class="button is-success" type="submit">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
                             }
                         </footer>

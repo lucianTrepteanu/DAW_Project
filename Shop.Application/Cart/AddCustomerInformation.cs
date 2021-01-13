@@ -19,24 +19,24 @@ namespace Shop.Application.Cart
 
         public class Request
         {
-            [Required]
+            [Required, MinLength(2, ErrorMessage = "First name too short")]
             public string FirstName { get; set; }
-            [Required]
+            [Required ,MinLength(2, ErrorMessage = "Last name too short")]
             public string LastName { get; set; }
             [Required]
             [DataType(DataType.EmailAddress)]
             public string Email { get; set; }
             [Required]
-            [DataType(DataType.PhoneNumber)]
+            [RegularExpression(@"^07(\d{8})$", ErrorMessage = "Invalid phone number")]
             public string PhoneNumber { get; set; }
 
 
-            [Required]
+            [Required,MinLength(5, ErrorMessage = "Address too short")]
             public string Address1 { get; set; }
             public string Address2 { get; set; }
-            [Required]
+            [Required,MyValidation]
             public string City { get; set; }
-            [Required]
+            [Required, MinLength(5, ErrorMessage = "Invalid postcode")]
             public string PostCode { get; set; }
         }
 

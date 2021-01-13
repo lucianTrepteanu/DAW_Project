@@ -13,18 +13,19 @@
             </ul>
         </div>
         <div v-if="orders.length > 0">
-            <p v-for="order in orders">
+            <div class="column" v-for="order in orders">
+                <label class="label"> Order reference - Customer E-mail </label>
                 <a @@click="selectOrder(order.id)">{{order.orderRef}} - {{order.email}}</a>
-            </p>
+            </div>
         </div>
     </div>
     <div v-else>
         <p>
-            <button @@click="exitOrder()">Exit</button>
+            <button class="button is-danger" @@click="exitOrder()">Exit</button>
         </p>
         <p class="title">{{selectedOrder.orderRef}}</p>
         <p class="subtitle">{{selectedOrder.email}}</p>
-        <button @@click="updateOrder()">Process</button>
+        <button class="button is-warning" @@click="updateOrder()">Process</button>
     </div>
 </div>
 

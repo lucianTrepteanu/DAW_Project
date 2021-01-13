@@ -11,7 +11,7 @@
                 <div class="level" id="product-@product.StockId">
                     <div class="level-item">
                         <figure class="image is-128x128">
-                            <img src="~/images/item.jpg" />
+                            <img src="@product.ImageURL" />
                         </figure>
                     </div>
 
@@ -61,7 +61,6 @@
             var stockId = e.target.dataset.stockId;
             axios.post("/Cart/AddOne/" + stockId)
                 .then(res => {
-                    //UPDATE QTY
                     var id = "stock-" + stockId;
                     var el = document.getElementById(id);
                     var qty = parseInt(el.innerText);
@@ -93,7 +92,6 @@
             var stockId = e.target.dataset.stockId;
             axios.post("/Cart/RemoveAll/" + stockId)
                 .then(res => {
-                    //UPDATE QTY
                     var id = "product-" + stockId;
                     var el = document.getElementById(id);
                     el.outerHTML = "";
