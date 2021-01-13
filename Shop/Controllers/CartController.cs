@@ -62,9 +62,9 @@ namespace ShopUI.Controllers
                 StockId = stockId,
                 All = true
             };
-            var addToCart = new RemoveFromCart(HttpContext.Session, _ctx);
+            var removeService = new RemoveFromCart(HttpContext.Session, _ctx);
 
-            var success = await addToCart.Do(request);
+            var success = await removeService.Do(request);
             if (success)
             {
                 return Ok("Item removed all items from cart");

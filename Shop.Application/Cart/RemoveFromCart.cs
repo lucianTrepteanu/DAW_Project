@@ -44,8 +44,12 @@ namespace Shop.Application.Cart
             {
                 return true;
             }
-            cartList.Find(x => x.StockId == request.StockId).Qty -= request.Qty;
-
+            var prod = cartList.Find(x => x.StockId == request.StockId);
+            prod.Qty -= request.Qty;
+            if (prod.Qty <= 0 || request.All)
+            {
+                cartList.Remove(prod);
+            }
             
             stringObject = JsonConvert.SerializeObject(cartList);
             
