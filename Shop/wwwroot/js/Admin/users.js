@@ -2,7 +2,7 @@
     el: '#app',
     data: {
         username: "",
-        password: "bullshit"
+        password: "proiectDaw"
     },
     mounted() {
 
@@ -11,7 +11,7 @@
         createUser() {
             this.loading = true;
 
-            axios.post('/users', { username: this.username, password: 'totihandicapatii'})
+            axios.post('/users', { username: this.username, password: this.password })
                 .then(res => {
                     console.log(res);
                 })

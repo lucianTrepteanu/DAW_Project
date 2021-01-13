@@ -28,7 +28,14 @@ namespace Shop.Application.UsersAdmin
                 UserName = request.UserName
             };
 
-            await _userManager.CreateAsync(managerUser, "managerpass");
+            if (!string.IsNullOrEmpty(request.Password))
+            {
+                await _userManager.CreateAsync(managerUser, request.Password);
+            }
+            else
+            {
+                await _userManager.CreateAsync(managerUser, "proiectDaw");
+            }
 
             var managerClaim = new Claim("Role", "Manager");
             

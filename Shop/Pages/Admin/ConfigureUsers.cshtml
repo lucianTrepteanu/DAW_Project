@@ -3,11 +3,29 @@
 @{
 }
 
-
-<div id="app" class="container">
-    <input v-model="username" />
-    <button @@click="createUser()">Create</button>
+<div id="app" class="columns">
+    <div class="column is-6">
+        <form method="post">
+            <div class="field">
+                <p class="control">
+                    <label class="label">Username</label>
+                    <input class="input" v-model="username" />
+                </p>
+            </div>
+            <div class="field">
+                <p class="control">
+                    <label class="label">Password</label>
+                    <input type="password" class="input" v-model="password" />
+                </p>
+            </div>
+            <div class="field">
+                <button class="button is-success" @@click="createUser()">Create User</button>
+            </div>
+        </form>
+    </div>
 </div>
+
+
 
 @section scripts{
     <script src="~/js/Admin/users.js"></script>
