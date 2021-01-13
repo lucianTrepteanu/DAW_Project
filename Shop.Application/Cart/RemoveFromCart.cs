@@ -30,7 +30,6 @@ namespace Shop.Application.Cart
 
         public async Task<bool> Do(Request request)
         {
-
             var cartList = new List<CartProduct>();
             var stringObject = _session.GetString("Cart");
 
