@@ -21,11 +21,10 @@ namespace ShopUI.Controllers
         private IUpload _uploadService;
         private ApplicationDbContext _ctx;
 
-        public ProductsController(ApplicationDbContext ctx, IConfiguration configuration)
+        public ProductsController(ApplicationDbContext ctx,IUpload uploadService, IConfiguration configuration)
         {
             _configuration = configuration;
-            _uploadService = new UploadService();
-            //_uploadService = uploadService;
+            _uploadService = uploadService;
             _ctx = ctx;
         }
 

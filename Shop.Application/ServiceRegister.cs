@@ -15,6 +15,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             @this.AddTransient<CreateUser>();
 
+            @this.AddTransient<IUpload, UploadService>();
+
             return @this;
         }
     }
