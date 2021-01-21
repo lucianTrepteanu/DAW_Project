@@ -14,6 +14,7 @@ using Shop.Database;
 using Stripe;
 using Microsoft.AspNetCore.Identity;
 using Shop.Application.UsersAdmin;
+using Shop.Application.Data;
 
 namespace Shop
 {
@@ -79,6 +80,7 @@ namespace Shop
 
             StripeConfiguration.ApiKey = _config.GetSection("Stripe")["SecretKey"];
 
+            services.AddSingleton<IUpload, UploadService>();
 
             services.AddAplicationServices();
         }
